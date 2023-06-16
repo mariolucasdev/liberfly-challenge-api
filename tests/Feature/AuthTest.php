@@ -8,7 +8,7 @@ use Tests\TestCase;
 class AuthTest extends TestCase
 {
     /**
-     * Test create user.
+     * Test create user expect code 201.
      */
     public function test_register_user_with_api_expect_code_201(): void
     {
@@ -19,9 +19,15 @@ class AuthTest extends TestCase
         ]);
 
         $response->assertCreated();
+        $response->assertStatus(201);
     }
 
-    public function test_register_user_expect_return_json_with_structure_correctly(): void
+    /**
+     * Test crete with return json with correct structure
+     *
+     * @return void
+     */
+    public function test_register_user_expect_return_json_with_structure_correct(): void
     {
         $response = $this->json('POST', 'api/auth/register', [
             'name' => fake()->name(),
@@ -38,6 +44,11 @@ class AuthTest extends TestCase
             );
     }
 
+    /**
+     * Test try create user with param missed, expect unprocessable code 422
+     *
+     * @return void
+     */
     public function test_create_user_missing_param_name_expect_unprocessable_code_422(): void
     {
         $response = $this->json('POST', 'api/auth/register', [
@@ -49,6 +60,11 @@ class AuthTest extends TestCase
         $response->assertStatus(422);
     }
 
+    /**
+     * Test try create user with invalid email, expect unprocessable code 422
+     *
+     * @return void
+     */
     public function test_create_user_invalid_email_expect_unprocessable_code_422(): void
     {
         $response = $this->json('POST', 'api/auth/register', [
@@ -61,6 +77,12 @@ class AuthTest extends TestCase
         $response->assertStatus(422);
     }
 
+    /**
+     * Test login user, expect json valid
+     * with status 200 and param status been true
+     *
+     * @return void
+     */
     public function test_login_expect_valid_json_with_status_true_code_200(): void
     {
         $email = fake()->email();
@@ -89,6 +111,12 @@ class AuthTest extends TestCase
         $response->assertOk();
     }
 
+    /**
+     * Test try login user with incorrectly password,
+     * expect param status false, message and code 401
+     *
+     * @return void
+     */
     public function test_error_login_expect_status_false_and_code_401(): void
     {
         $email = fake()->email();
