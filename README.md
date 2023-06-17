@@ -106,8 +106,8 @@ php artisan test --parallel
 
 ## Informações Gerais:
 
--   Inicie cadastrando um usuário; (_Depois de cadastrar seu usuário configure seu token de acesso no painel do Swagger._)
-    ![Butão authorize swagger](readme-files/image.png)
+-   Inicie cadastrando um usuário; (_Depois de cadastrar seu usuário configure seu token de acesso no painel do Swagger clicando no botão Authorize._)
+![Butão authorize swagger](readme-files/image.png)
 
 -   Depois teste fazer o login do seu usuário com suas credenciais;
 -   Cadastre um post;
