@@ -12,13 +12,17 @@ class PostController extends Controller
     * Display a listing of the posts
     *
     * @OA\Get(
-    *    tags={"/post"},
-    *    path="/post",
+    *    tags={"/posts"},
+    *    path="/posts",
     *    summary="Listar Posts",
     *    security={{ "bearerAuth" : {} }},
     *    @OA\Response(
     *        response="200",
-    *        description="Lista de Posts",
+    *        description="Lista de Posts.",
+    *    ),
+    *    @OA\Response(
+    *        response="401",
+    *        description="Não autorizado.",
     *    )
     * )
     *
@@ -37,8 +41,8 @@ class PostController extends Controller
      * @param StorePostRequest $request
      *
      * @OA\Post(
-     *    tags={"/post"},
-     *    path="/post",
+     *    tags={"/posts"},
+     *    path="/posts",
      *    summary="Cadastrar Post",
      *    security={{ "bearerAuth" : {} }},
      *    @OA\RequestBody(
@@ -53,7 +57,24 @@ class PostController extends Controller
      *    @OA\Response(
      *        response="201",
      *        description="Post Created",
-     *    )
+     *        @OA\JsonContent(
+     *            type="object",
+     *            @OA\Property(property="id", type="int"),
+     *            @OA\Property(property="title", type="string"),
+     *            @OA\Property(property="slug", type="string"),
+     *            @OA\Property(property="content", type="string"),
+     *            @OA\Property(property="created_at", type="string"),
+     *            @OA\Property(property="updated_at", type="string"),
+     *        )
+     *    ),
+     *    @OA\Response(
+     *        response="401",
+     *        description="Não autorizado.",
+     *    ),
+     *    @OA\Response(
+     *        response="422",
+     *        description="Conteúdo não processado.",
+     *    ),
      * )
      *
      * @return JsonResponse
@@ -69,9 +90,9 @@ class PostController extends Controller
      * Show post by id
      *
      * @OA\Get(
-     *    tags={"/post"},
+     *    tags={"/posts"},
      *    summary="Mostrar Post pelo id",
-     *    path="/post/{id}",
+     *    path="/posts/{id}",
      *    description="Mostrar Post",
      *    security={{ "bearerAuth" : {}}},
      *    @OA\Parameter(
@@ -87,11 +108,24 @@ class PostController extends Controller
      *    @OA\Response(
      *        response="200",
      *        description="Post Created",
-     *        @OA\Examples(
-     *          example="result",
-     *          value={"success": true},
-     *          summary="An result object."),
-     *    )
+     *        @OA\JsonContent(
+     *            type="object",
+     *            @OA\Property(property="id", type="int"),
+     *            @OA\Property(property="title", type="string"),
+     *            @OA\Property(property="slug", type="string"),
+     *            @OA\Property(property="content", type="string"),
+     *            @OA\Property(property="created_at", type="string"),
+     *            @OA\Property(property="updated_at", type="string"),
+     *        )
+     *    ),
+     *    @OA\Response(
+     *        response="401",
+     *        description="Não autorizado.",
+     *    ),
+     *    @OA\Response(
+     *        response="404",
+     *        description="Post não encontrado.",
+     *    ),
      * )
      *
      * @param string $id
@@ -108,8 +142,8 @@ class PostController extends Controller
      * Update specific post on storage
      *
      * @OA\Put(
-     *    tags={"/post"},
-     *    path="/post/{id}",
+     *    tags={"/posts"},
+     *    path="/posts/{id}",
      *    summary="Editar Post",
      *    security={{ "bearerAuth" : {} }},
      *    @OA\Parameter(
@@ -132,9 +166,30 @@ class PostController extends Controller
      *        )
      *    ),
      *    @OA\Response(
-     *        response="204",
+     *        response="200",
      *        description="Post Updated",
-     *    )
+     *        @OA\JsonContent(
+     *            type="object",
+     *            @OA\Property(property="id", type="int"),
+     *            @OA\Property(property="title", type="string"),
+     *            @OA\Property(property="slug", type="string"),
+     *            @OA\Property(property="content", type="string"),
+     *            @OA\Property(property="created_at", type="string"),
+     *            @OA\Property(property="updated_at", type="string"),
+     *        )
+     *    ),
+     *    @OA\Response(
+     *        response="401",
+     *        description="Não autorizado.",
+     *    ),
+     *    @OA\Response(
+     *        response="404",
+     *        description="Post não encontrado.",
+     *    ),
+     *    @OA\Response(
+     *        response="422",
+     *        description="Conteúdo não processado.",
+     *    ),
      * )
      *
      * @param StorePostRequest $request
@@ -146,15 +201,15 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $post->update($request->all());
 
-        return response()->json([], 204);
+        return response()->json($post, 200);
     }
 
     /**
      * Delete post
      *
      * @OA\Delete(
-     *    tags={"/post"},
-     *    path="/post/{id}",
+     *    tags={"/posts"},
+     *    path="/posts/{id}",
      *    summary="Deletar Post",
      *    security={{ "bearerAuth" : {} }},
      *    @OA\Parameter(
@@ -168,9 +223,17 @@ class PostController extends Controller
      *          )
      *    ),
      *    @OA\Response(
-     *        response="204",
-     *        description="Post excluído.",
-     *    )
+     *        response="200",
+     *        description="Post Deleted",
+     *    ),
+     *    @OA\Response(
+     *        response="401",
+     *        description="Não autorizado.",
+     *    ),
+     *    @OA\Response(
+     *        response="422",
+     *        description="Conteúdo não processado.",
+     *    ),
      * )
      *
      * @param string $id
@@ -181,6 +244,6 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $post->delete();
 
-        return response()->json([], 204);
+        return response()->json([], 200);
     }
 }

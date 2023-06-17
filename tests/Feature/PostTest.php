@@ -22,7 +22,7 @@ class PostTest extends TestCase
             ['*']
         );
 
-        $response = $this->json('POST', 'api/post', [
+        $response = $this->json('POST', 'api/posts', [
             'title' => fake()->title(),
             'slug' => fake()->slug(5, true),
             'content' => fake()->paragraph(3, true)
@@ -40,7 +40,7 @@ class PostTest extends TestCase
      */
     public function test_crete_new_post_without_user_token_expect_unauthorize_code_401(): void
     {
-        $response = $this->json('POST', 'api/post', [
+        $response = $this->json('POST', 'api/posts', [
             'title' => fake()->title(),
             'slug' => fake()->slug(5, true),
             'content' => fake()->paragraph(3, true)
@@ -63,7 +63,7 @@ class PostTest extends TestCase
             ['*']
         );
 
-        $response = $this->json('GET', 'api/post');
+        $response = $this->json('GET', 'api/posts');
 
         $response->assertJson(
             fn (AssertableJson $json) =>
@@ -90,7 +90,7 @@ class PostTest extends TestCase
 
         $post = Post::latest()->first();
 
-        $response = $this->json('GET', 'api/post/'.$post->id);
+        $response = $this->json('GET', 'api/posts/'.$post->id);
 
         $response->assertStatus(200);
         $response->assertOk();
@@ -110,7 +110,7 @@ class PostTest extends TestCase
 
         $post = Post::latest()->first();
 
-        $response = $this->json('GET', 'api/post/'.$post->id);
+        $response = $this->json('GET', 'api/posts/'.$post->id);
 
         $response->assertJson(
             fn (AssertableJson $json) =>
@@ -139,13 +139,13 @@ class PostTest extends TestCase
         $slug = fake()->slug(4, true);
         $content = fake()->paragraph(3, true);
 
-        $response = $this->json('PUT', 'api/post/'.$post->id, [
+        $response = $this->json('PUT', 'api/posts/'.$post->id, [
             'title' => $title,
             'slug' => $slug,
             'content' => $content
         ]);
 
-        $response->assertStatus(204);
+        $response->assertStatus(200);
     }
 
     /**
@@ -166,13 +166,46 @@ class PostTest extends TestCase
         $title = fake()->title();
         $content = fake()->paragraph(3, true);
 
-        $response = $this->json('PUT', 'api/post/'.$post->id, [
+        $response = $this->json('PUT', 'api/posts/'.$post->id, [
             'title' => $title,
             'content' => $content
         ]);
 
         $response->assertStatus(422);
         $response->assertUnprocessable();
+    }
+
+    /**
+     * Test update post and expect correct format json
+     *
+     * @return void
+     */
+    public function test_update_post_expect_correct_format_json(): void
+    {
+        Sanctum::actingAs(
+            User::factory()->create(),
+            ['*']
+        );
+
+        $post = Post::latest()->first();
+
+        $title = fake()->title();
+        $slug = fake()->slug();
+        $content = fake()->paragraph(3, true);
+
+        $response = $this->json('PUT', 'api/posts/'.$post->id, [
+            'title' => $title,
+            'slug' => $slug,
+            'content' => $content
+        ]);
+
+        $response->assertJson(
+            fn (AssertableJson $json) =>
+            $json->hasAll(['id', 'title', 'slug', 'content', 'created_at', 'updated_at'])
+                ->where('title', $title)
+                ->where('slug', $slug)
+                ->where('content', $content)
+        );
     }
 
     /**
@@ -189,9 +222,9 @@ class PostTest extends TestCase
 
         $post = Post::latest()->first();
 
-        $response = $this->json('DELETE', 'api/post/'.$post->id);
+        $response = $this->json('DELETE', 'api/posts/'.$post->id);
 
-        $response->assertStatus(204);
+        $response->assertStatus(200);
     }
 
     /**
@@ -204,7 +237,7 @@ class PostTest extends TestCase
     {
         $post = Post::latest()->first();
 
-        $response = $this->json('DELETE', 'api/post/'.$post->id);
+        $response = $this->json('DELETE', 'api/posts/'.$post->id);
 
         $response->assertUnauthorized();
         $response->assertStatus(401);
@@ -222,7 +255,7 @@ class PostTest extends TestCase
             ['*']
         );
 
-        $response = $this->json('DELETE', 'api/post/11111111111');
+        $response = $this->json('DELETE', 'api/posts/11111111111');
 
         $response->assertStatus(404);
     }

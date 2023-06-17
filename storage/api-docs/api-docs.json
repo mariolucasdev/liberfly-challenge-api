@@ -1,7 +1,12 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Api Swagger",
+        "title": "Api Libertfly Posts",
+        "description": "API com autenticação JWT para com as principais operações para o recuros de Posts.",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "email": "mariolucasdev@gmail.com"
+        },
         "version": "0.0.1"
     },
     "servers": [
@@ -115,17 +120,20 @@
                 }
             }
         },
-        "/post": {
+        "/posts": {
             "get": {
                 "tags": [
-                    "/post"
+                    "/posts"
                 ],
                 "summary": "Listar Posts",
                 "description": "Display a listing of the posts",
-                "operationId": "425e95aaa6ab243fc407ffcf09db9de5",
+                "operationId": "5f292ed47bdbfa79356750be0807450c",
                 "responses": {
                     "200": {
-                        "description": "Lista de Posts"
+                        "description": "Lista de Posts."
+                    },
+                    "401": {
+                        "description": "Não autorizado."
                     }
                 },
                 "security": [
@@ -136,11 +144,11 @@
             },
             "post": {
                 "tags": [
-                    "/post"
+                    "/posts"
                 ],
                 "summary": "Cadastrar Post",
                 "description": "Store post",
-                "operationId": "35cc3a4123556e20dc17f6f45be00f18",
+                "operationId": "c2e0b0e26215e6d34ece33ebae25f7df",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -164,7 +172,40 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Post Created"
+                        "description": "Post Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "title": {
+                                            "type": "string"
+                                        },
+                                        "slug": {
+                                            "type": "string"
+                                        },
+                                        "content": {
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "updated_at": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "422": {
+                        "description": "Conteúdo não processado."
                     }
                 },
                 "security": [
@@ -174,14 +215,14 @@
                 ]
             }
         },
-        "/post/{id}": {
+        "/posts/{id}": {
             "get": {
                 "tags": [
-                    "/post"
+                    "/posts"
                 ],
                 "summary": "Mostrar Post pelo id",
                 "description": "Mostrar Post",
-                "operationId": "820a95132e64f02c9c71b2cfc3cadb0b",
+                "operationId": "c8bd68bc05422c879bc2dd429ae5782b",
                 "parameters": [
                     {
                         "name": "id",
@@ -196,7 +237,40 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Post Created"
+                        "description": "Post Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "title": {
+                                            "type": "string"
+                                        },
+                                        "slug": {
+                                            "type": "string"
+                                        },
+                                        "content": {
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "updated_at": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "404": {
+                        "description": "Post não encontrado."
                     }
                 },
                 "security": [
@@ -207,11 +281,11 @@
             },
             "put": {
                 "tags": [
-                    "/post"
+                    "/posts"
                 ],
                 "summary": "Editar Post",
                 "description": "Update specific post on storage",
-                "operationId": "d80bce236721ddcb1bdc86a4e869be81",
+                "operationId": "06c81121178208730e11d2f6b655e78d",
                 "parameters": [
                     {
                         "name": "id",
@@ -246,8 +320,44 @@
                     }
                 },
                 "responses": {
-                    "204": {
-                        "description": "Post Updated"
+                    "200": {
+                        "description": "Post Updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "title": {
+                                            "type": "string"
+                                        },
+                                        "slug": {
+                                            "type": "string"
+                                        },
+                                        "content": {
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "updated_at": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "404": {
+                        "description": "Post não encontrado."
+                    },
+                    "422": {
+                        "description": "Conteúdo não processado."
                     }
                 },
                 "security": [
@@ -258,11 +368,11 @@
             },
             "delete": {
                 "tags": [
-                    "/post"
+                    "/posts"
                 ],
                 "summary": "Deletar Post",
                 "description": "Delete post",
-                "operationId": "cdf3a5c9a54637677e9d19e0bd933ab4",
+                "operationId": "54788a50da690c5ee1dfdc25425a1f87",
                 "parameters": [
                     {
                         "name": "id",
@@ -276,8 +386,14 @@
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "Post excluído."
+                    "200": {
+                        "description": "Post Deleted"
+                    },
+                    "401": {
+                        "description": "Não autorizado."
+                    },
+                    "422": {
+                        "description": "Conteúdo não processado."
                     }
                 },
                 "security": [

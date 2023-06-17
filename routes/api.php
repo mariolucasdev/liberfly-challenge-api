@@ -19,4 +19,4 @@ Route::post('/auth/register', [AuthController::class, 'createUser']);
 
 Route::post('/auth/login', [AuthController::class, 'loginUser']);
 
-Route::apiResource('/post', PostController::class)->middleware('auth:sanctum');
+Route::apiResource('/posts', PostController::class)->middleware('auth:sanctum');
