@@ -51,7 +51,8 @@ class PostController extends Controller
      *           type="object",
      *           @OA\Property(property="title", type="string"),
      *           @OA\Property(property="slug", type="string"),
-     *           @OA\Property(property="content", type="string"),
+     *           @OA\Property(property="content", type="string", description="id, name, email, email_verified_at, created_at, updated_at"),
+     *           @OA\Property(property="user_id", type="string"),
      *        )
      *    ),
      *    @OA\Response(
@@ -63,6 +64,8 @@ class PostController extends Controller
      *            @OA\Property(property="title", type="string"),
      *            @OA\Property(property="slug", type="string"),
      *            @OA\Property(property="content", type="string"),
+     *            @OA\Property(property="user_id", type="string"),
+     *            @OA\Property(property="user", type="object"),
      *            @OA\Property(property="created_at", type="string"),
      *            @OA\Property(property="updated_at", type="string"),
      *        )
@@ -115,6 +118,8 @@ class PostController extends Controller
      *            @OA\Property(property="title", type="string"),
      *            @OA\Property(property="slug", type="string"),
      *            @OA\Property(property="content", type="string"),
+     *            @OA\Property(property="user_id", type="string"),
+     *            @OA\Property(property="user", type="object"),
      *            @OA\Property(property="created_at", type="string"),
      *            @OA\Property(property="updated_at", type="string"),
      *        )
@@ -175,6 +180,8 @@ class PostController extends Controller
      *            @OA\Property(property="title", type="string"),
      *            @OA\Property(property="slug", type="string"),
      *            @OA\Property(property="content", type="string"),
+     *            @OA\Property(property="user_id", type="string"),
+     *            @OA\Property(property="user", type="object"),
      *            @OA\Property(property="created_at", type="string"),
      *            @OA\Property(property="updated_at", type="string"),
      *        )

@@ -162,6 +162,10 @@
                                         "type": "string"
                                     },
                                     "content": {
+                                        "description": "id, name, email, email_verified_at, created_at, updated_at",
+                                        "type": "string"
+                                    },
+                                    "user_id": {
                                         "type": "string"
                                     }
                                 },
@@ -188,6 +192,12 @@
                                         },
                                         "content": {
                                             "type": "string"
+                                        },
+                                        "user_id": {
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "type": "object"
                                         },
                                         "created_at": {
                                             "type": "string"
