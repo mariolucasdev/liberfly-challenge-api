@@ -9,10 +9,21 @@ use Illuminate\Http\JsonResponse;
 class PostController extends Controller
 {
     /**
-     * Display a listing of the posts
-     *
-     * @return JsonResponse
-     */
+    * Display a listing of the posts
+    *
+    * @OA\Get(
+    *    tags={"/post"},
+    *    path="/post",
+    *    summary="Listar Posts",
+    *    security={{ "bearerAuth" : {} }},
+    *    @OA\Response(
+    *        response="200",
+    *        description="Lista de Posts",
+    *    )
+    * )
+    *
+    * @return JsonResponse
+    */
     public function index(): JsonResponse
     {
         $posts = Post::all();
@@ -24,6 +35,27 @@ class PostController extends Controller
      * Store post
      *
      * @param StorePostRequest $request
+     *
+     * @OA\Post(
+     *    tags={"/post"},
+     *    path="/post",
+     *    summary="Cadastrar Post",
+     *    security={{ "bearerAuth" : {} }},
+     *    @OA\RequestBody(
+     *        required=true,
+     *        @OA\JsonContent(
+     *           type="object",
+     *           @OA\Property(property="title", type="string"),
+     *           @OA\Property(property="slug", type="string"),
+     *           @OA\Property(property="content", type="string"),
+     *        )
+     *    ),
+     *    @OA\Response(
+     *        response="201",
+     *        description="Post Created",
+     *    )
+     * )
+     *
      * @return JsonResponse
      */
     public function store(StorePostRequest $request): JsonResponse
@@ -35,6 +67,32 @@ class PostController extends Controller
 
     /**
      * Show post by id
+     *
+     * @OA\Get(
+     *    tags={"/post"},
+     *    summary="Mostrar Post pelo id",
+     *    path="/post/{id}",
+     *    description="Mostrar Post",
+     *    security={{ "bearerAuth" : {}}},
+     *    @OA\Parameter(
+     *          description="Post Id",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *    ),
+     *    @OA\Response(
+     *        response="200",
+     *        description="Post Created",
+     *        @OA\Examples(
+     *          example="result",
+     *          value={"success": true},
+     *          summary="An result object."),
+     *    )
+     * )
      *
      * @param string $id
      * @return JsonResponse
@@ -49,6 +107,36 @@ class PostController extends Controller
     /**
      * Update specific post on storage
      *
+     * @OA\Put(
+     *    tags={"/post"},
+     *    path="/post/{id}",
+     *    summary="Editar Post",
+     *    security={{ "bearerAuth" : {} }},
+     *    @OA\Parameter(
+     *       description="Post Id",
+     *       in="path",
+     *       name="id",
+     *       required=true,
+     *       @OA\Schema(
+     *           type="integer",
+     *           format="int64"
+     *       )
+     *    ),
+     *    @OA\RequestBody(
+     *        required=true,
+     *        @OA\JsonContent(
+     *           type="object",
+     *           @OA\Property(property="title", type="string"),
+     *           @OA\Property(property="slug", type="string"),
+     *           @OA\Property(property="content", type="string"),
+     *        )
+     *    ),
+     *    @OA\Response(
+     *        response="204",
+     *        description="Post Updated",
+     *    )
+     * )
+     *
      * @param StorePostRequest $request
      * @param string $id
      * @return JsonResponse
@@ -57,14 +145,38 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         $post->update($request->all());
-        
+
         return response()->json([], 204);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete post
+     *
+     * @OA\Delete(
+     *    tags={"/post"},
+     *    path="/post/{id}",
+     *    summary="Deletar Post",
+     *    security={{ "bearerAuth" : {} }},
+     *    @OA\Parameter(
+     *          description="Post Id",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *    ),
+     *    @OA\Response(
+     *        response="204",
+     *        description="Post excluído.",
+     *    )
+     * )
+     *
+     * @param string $id
+     * @return JsonResponse
      */
-    public function destroy(string $id)
+    public function destroy(string $id): JsonResponse
     {
         $post = Post::findOrFail($id);
         $post->delete();

@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Api Swaggar",
+        "title": "Api Swagger",
         "version": "0.0.1"
     },
     "servers": [
@@ -13,7 +13,7 @@
         "/auth/register": {
             "post": {
                 "tags": [
-                    "Cadastro e Autenticação"
+                    "/auth"
                 ],
                 "summary": "Registrar um Novo Usuário",
                 "description": "create user",
@@ -67,7 +67,7 @@
         "/auth/login": {
             "post": {
                 "tags": [
-                    "Cadastro e Autenticação"
+                    "/auth"
                 ],
                 "summary": "Realiza o Login do Usuário",
                 "description": "login user",
@@ -113,6 +113,186 @@
                         }
                     }
                 }
+            }
+        },
+        "/post": {
+            "get": {
+                "tags": [
+                    "/post"
+                ],
+                "summary": "Listar Posts",
+                "description": "Display a listing of the posts",
+                "operationId": "425e95aaa6ab243fc407ffcf09db9de5",
+                "responses": {
+                    "200": {
+                        "description": "Lista de Posts"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "/post"
+                ],
+                "summary": "Cadastrar Post",
+                "description": "Store post",
+                "operationId": "35cc3a4123556e20dc17f6f45be00f18",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "type": "string"
+                                    },
+                                    "content": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Post Created"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/post/{id}": {
+            "get": {
+                "tags": [
+                    "/post"
+                ],
+                "summary": "Mostrar Post pelo id",
+                "description": "Mostrar Post",
+                "operationId": "820a95132e64f02c9c71b2cfc3cadb0b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Post Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Post Created"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "/post"
+                ],
+                "summary": "Editar Post",
+                "description": "Update specific post on storage",
+                "operationId": "d80bce236721ddcb1bdc86a4e869be81",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Post Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "type": "string"
+                                    },
+                                    "content": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Post Updated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "/post"
+                ],
+                "summary": "Deletar Post",
+                "description": "Delete post",
+                "operationId": "cdf3a5c9a54637677e9d19e0bd933ab4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Post Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Post excluído."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
             }
         }
     }

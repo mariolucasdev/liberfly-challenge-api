@@ -17,7 +17,7 @@ class AuthController extends Controller
      * @param CreateUserRequest $request
      *
      * @OA\Post(
-     *      tags={"Cadastro e Autenticação"},
+     *      tags={"/auth"},
      *      path="/auth/register",
      *      summary="Registrar um Novo Usuário",
      *      @OA\RequestBody(
@@ -66,7 +66,7 @@ class AuthController extends Controller
      * @param Request $request
      *
      * * @OA\Post(
-     *      tags={"Cadastro e Autenticação"},
+     *      tags={"/auth"},
      *      path="/auth/login",
      *      summary="Realiza o Login do Usuário",
      *      @OA\RequestBody(
