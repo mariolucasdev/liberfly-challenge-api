@@ -37,11 +37,11 @@ class CreateUserRequest extends FormRequest
     {
         return [
             'name.required' => 'O campo nome é obrigatório.',
-            'email.required' => 'O campo email é obrigatório',
+            'email.required' => 'O campo email é obrigatório.',
             'email.email' => 'O campo e-mail deve ser um e-mail válido.',
             'email.unique' => 'E-mail já cadastrado, tente outro.',
-            'password.required' => 'O campo senha é obrigatório',
-            'password.min' => 'O campo senha deve conter no mínimo 8 carácteres'
+            'password.required' => 'O campo senha é obrigatório.',
+            'password.min' => 'O campo senha deve conter no mínimo 8 carácteres.'
         ];
     }
 }
