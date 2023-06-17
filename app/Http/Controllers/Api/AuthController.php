@@ -9,11 +9,6 @@ use App\Models\User;
 use Illuminate\Http\{JsonResponse, Request};
 use Illuminate\Support\Facades\{Auth, Hash, Validator};
 
-/**
- * @OA\Tags(
- *      name="Registro e Autenticação"
- * )
- */
 class AuthController extends Controller
 {
     /**
@@ -22,6 +17,7 @@ class AuthController extends Controller
      * @param CreateUserRequest $request
      *
      * @OA\Post(
+     *      tags={"Cadastro e Autenticação"},
      *      path="/auth/register",
      *      summary="Registrar um Novo Usuário",
      *      @OA\RequestBody(
@@ -44,6 +40,8 @@ class AuthController extends Controller
      *              )
      *      )
      * )
+     *
+     * @return JsonResponse
      */
     public function createUser(CreateUserRequest $request): JsonResponse
     {
@@ -68,6 +66,7 @@ class AuthController extends Controller
      * @param Request $request
      *
      * * @OA\Post(
+     *      tags={"Cadastro e Autenticação"},
      *      path="/auth/login",
      *      summary="Realiza o Login do Usuário",
      *      @OA\RequestBody(

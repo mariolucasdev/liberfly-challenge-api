@@ -12,6 +12,9 @@
     "paths": {
         "/auth/register": {
             "post": {
+                "tags": [
+                    "Cadastro e Autenticação"
+                ],
                 "summary": "Registrar um Novo Usuário",
                 "description": "create user",
                 "operationId": "e9f633efb784de73910b2d802f3e8ff8",
@@ -63,6 +66,9 @@
         },
         "/auth/login": {
             "post": {
+                "tags": [
+                    "Cadastro e Autenticação"
+                ],
                 "summary": "Realiza o Login do Usuário",
                 "description": "login user",
                 "operationId": "0ba9de54ccb9d0688a1e682e2b4d76cb",
