@@ -30,7 +30,7 @@ class PostController extends Controller
     */
     public function index(): JsonResponse
     {
-        $posts = Post::all();
+        $posts = Post::with(['user'])->get();
 
         return response()->json($posts, 200);
     }
@@ -82,6 +82,7 @@ class PostController extends Controller
     public function store(StorePostRequest $request): JsonResponse
     {
         $post = Post::create($request->all());
+        $post = Post::with(['user'])->find($post->id);
 
         return response()->json($post, 201);
     }
@@ -133,7 +134,7 @@ class PostController extends Controller
      */
     public function show(string $id): JsonResponse
     {
-        $post = Post::findOrFail($id);
+        $post = Post::with(['user'])->findOrFail($id);
 
         return response()->json($post, 200);
     }
@@ -198,7 +199,7 @@ class PostController extends Controller
      */
     public function update(StorePostRequest $request, string $id): JsonResponse
     {
-        $post = Post::findOrFail($id);
+        $post = Post::with(['user'])->findOrFail($id);
         $post->update($request->all());
 
         return response()->json($post, 200);

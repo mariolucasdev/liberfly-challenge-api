@@ -17,15 +17,15 @@ class PostTest extends TestCase
      */
     public function test_create_new_post_expect_status_created_with_code_201(): void
     {
-        Sanctum::actingAs(
-            User::factory()->create(),
-            ['*']
-        );
+        $user = User::factory()->create();
+
+        Sanctum::actingAs($user, ['*']);
 
         $response = $this->json('POST', 'api/posts', [
             'title' => fake()->title(),
             'slug' => fake()->slug(5, true),
-            'content' => fake()->paragraph(3, true)
+            'content' => fake()->paragraph(3, true),
+            'user_id' => $user->id,
         ]);
 
         $response->assertCreated();
@@ -48,7 +48,6 @@ class PostTest extends TestCase
 
         $response->assertUnauthorized();
         $response->assertStatus(401);
-
     }
 
     /**
@@ -69,7 +68,7 @@ class PostTest extends TestCase
             fn (AssertableJson $json) =>
             $json->first(
                 fn ($post) =>
-                $post->hasAll(['id', 'title', 'slug', 'content', 'created_at', 'updated_at'])
+                $post->hasAll(['id', 'title', 'slug', 'content', 'user_id', 'user' ,'created_at', 'updated_at'])
             )
         );
 
@@ -103,20 +102,20 @@ class PostTest extends TestCase
      */
     public function test_show_post_expect_structure_json_correct(): void
     {
-        Sanctum::actingAs(
-            User::factory()->create(),
-            ['*']
-        );
+        $user = User::factory()->create();
 
-        $post = Post::latest()->first();
+        Sanctum::actingAs($user, ['*']);
+
+        $post = Post::with(['user'])->get()->first();
 
         $response = $this->json('GET', 'api/posts/'.$post->id);
 
         $response->assertJson(
             fn (AssertableJson $json) =>
-            $json->hasAll(['id', 'title', 'slug', 'content', 'created_at', 'updated_at'])
+            $json->hasAll(['id', 'title', 'slug', 'content', 'user_id', 'user', 'created_at', 'updated_at'])
                 ->where('title', $post->title)
                 ->where('slug', $post->slug)
+                ->where('user_id', $post->user_id)
                 ->where('content', $post->content)
         );
     }
@@ -128,10 +127,9 @@ class PostTest extends TestCase
      */
     public function test_update_post_expect_code_204(): void
     {
-        Sanctum::actingAs(
-            User::factory()->create(),
-            ['*']
-        );
+        $user = User::factory()->create();
+
+        Sanctum::actingAs($user, ['*']);
 
         $post = Post::latest()->first();
 
@@ -142,7 +140,8 @@ class PostTest extends TestCase
         $response = $this->json('PUT', 'api/posts/'.$post->id, [
             'title' => $title,
             'slug' => $slug,
-            'content' => $content
+            'content' => $content,
+            'user_id' => $user->id
         ]);
 
         $response->assertStatus(200);
@@ -182,12 +181,11 @@ class PostTest extends TestCase
      */
     public function test_update_post_expect_correct_format_json(): void
     {
-        Sanctum::actingAs(
-            User::factory()->create(),
-            ['*']
-        );
+        $user = User::factory()->create();
 
-        $post = Post::latest()->first();
+        Sanctum::actingAs($user, ['*']);
+
+        $post = Post::with(['user'])->latest()->first();
 
         $title = fake()->title();
         $slug = fake()->slug();
@@ -196,15 +194,17 @@ class PostTest extends TestCase
         $response = $this->json('PUT', 'api/posts/'.$post->id, [
             'title' => $title,
             'slug' => $slug,
-            'content' => $content
+            'content' => $content,
+            'user_id' => $user->id
         ]);
 
         $response->assertJson(
             fn (AssertableJson $json) =>
-            $json->hasAll(['id', 'title', 'slug', 'content', 'created_at', 'updated_at'])
+            $json->hasAll(['id', 'title', 'slug', 'content', 'user_id', 'user', 'created_at', 'updated_at'])
                 ->where('title', $title)
                 ->where('slug', $slug)
                 ->where('content', $content)
+                ->where('user_id', $user->id)
         );
     }
 

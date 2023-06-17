@@ -1,66 +1,235 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Libertfly Challenge API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 💻 Sobre o projeto
 
-## About Laravel
+O projecto contém uma Api RESTFul desenvolvida em PHP com o framework Laravel,
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## ⚠️ Requisitos do Projeto
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   Laravel 10
+-   PHP ^8.1
+-   MySQL ^5.6
+-   Composer ^2.5
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🧰 Ferramenta para Teste de Requisições HTTP
 
-## Learning Laravel
+-   Swagger com a biblioteca L5 Swagger
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🏗️ Instalação
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Clone o repositório para o seu computador e acesse a pasta do projeto:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```
+//clone
+git clone https://github.com/mariolucasdev/gpm-challenge-backend.git
 
-## Laravel Sponsors
+//acesso a pasta
+cd gpm-challenge-backend
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### Renomeie o arquivo .env.example para .env na raiz do projeto e configure seu banco de dados:
 
-### Premium Partners
+Crie um bando de dados, para menos configurações nomeie seu banco de dados como _gpm_challenge_backend_ e conclua as configurações do seu .env.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+```php
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=gpm_challenge_backend //nome do seu banco de dados
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-## Contributing
+### Instale as dependências do composer:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
+composer install
+ou
+composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+```
 
-## Code of Conduct
+### Gere sua chave da aplicação:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```php
+php artisan key:generate
+```
 
-## Security Vulnerabilities
+### Instale as dependências package.json
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```
+npm install
+```
 
-## License
+### Execute as migrações do banco de dados e os seeders:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```
+php artisan migrate --seed
+```
+
+### Execute o servidor:
+
+```
+php artisan serve
+```
+
+Seguido todo os passos agora você conseguirá acessar os recursos da api, através dos enpoints abaixo.
+
+## Api Endoints
+
+## **Marcas**
+
+| Método | Endpoint   | Parâmetros | Descrição              | Retorno |
+| ------ | ---------- | ---------- | ---------------------- | ------- |
+| `GET`  | api/brands | ---        | Busca lista de marcas. | 200     |
+
+## _GET - api/brands_
+
+```javascript
+// Headers
+// Content-Type: application/json
+// Accept: application/json
+
+// Retorno
+{
+    "data": [
+        {
+            "id": 1,
+            "name": "Electrolux"
+        },
+        {...},
+        {...}
+    ]
+}
+```
+
+## **Eletrodomésticos**
+
+| Método   | Endpoint          | Parâmetros                                   | Descrição                         | Status          |
+| -------- | ----------------- | -------------------------------------------- | --------------------------------- | --------------- |
+| `POST`   | api/appliance     | name, description, eletric_tension, brand_id | Busca lista de marcas.            | 201 or 422      |
+| `GET`    | api/appliance     | ------                                       | Listagem de Eletrodomésticos.     | 200             |
+| `GET`    | api/appliance/:id | ------                                       | Exibir 1 eletrodoméstico pelo id. | 200 ou 404      |
+| `PUT`    | api/appliance/:id | name, description, eletric_tension, brand_id | Editar eletrodoméstico.           | 200, 404 or 422 |
+| `DELETE` | api/appliance/:id | ------                                       | Excluir um Eletrodomésticos.      | 200 ou 404      |
+
+## _POST - api/appliance_
+
+```javascript
+// Headers
+// Content-Type: application/json
+// Accept: application/json
+
+// Envio
+{
+	"name" : "Geladeira Frost Free",
+	"description": "Produto versátil.",
+	"eletric_tension" : "220v",
+	"brand_id" : 2
+}
+
+// Retorno
+{
+	"id": 72,
+	"name": "Geladeira Frost Free",
+	"description": "Produto versátil.",
+	"eletric_tension": "220v",
+	"brand_id": 2,
+	"created_at": "2023-06-14 17:33:11",
+	"updated_at": "2023-06-14 17:33:11",
+	"brand": "Brastemp"
+}
+```
+
+## _GET - api/appliance_
+
+```javascript
+// Headers
+// Accept: application/json
+
+// Retorno
+[
+    {
+		"id": 42,
+		"name": "Geladeira Frost Free",
+		"description": "Produto versátil.",
+		"eletric_tension": "220v",
+		"brand_id": 1,
+		"created_at": "2023-06-14 10:43:50",
+		"updated_at": "2023-06-14 10:43:50",
+		"brand": "Electrolux"
+	},
+    {...},
+    {...}
+]
+```
+
+## _GET - api/appliance/:id_
+
+```javascript
+// Headers
+// Accept: application/json
+
+// Retorno
+{
+	"id": 68,
+	"name": "Geladeira Frost Free",
+	"description": "Produto versátil.",
+	"eletric_tension": "220v",
+	"brand_id": 2,
+	"created_at": "2023-06-14 14:15:44",
+	"updated_at": "2023-06-14 14:15:44",
+	"brand": "Brastemp"
+}
+```
+
+## _PUT - api/appliance/:id_
+
+```javascript
+// Headers
+// Content-Type: application/json
+// Accept: application/json
+
+// Envio
+{
+	"name" : "Cooktop",
+	"description": "05 bocas.",
+	"eletric_tension" : "110v",
+	"brand_id" : 5
+}
+
+// Retorno
+{
+	"id": 67,
+	"name": "Cooktop",
+	"description": "05 bocas.",
+	"eletric_tension": "110v",
+	"brand_id": 5,
+	"created_at": "2023-06-14 14:14:32",
+	"updated_at": "2023-06-14 14:14:50",
+	"brand": "LG"
+}
+```
+
+## _DELETE - api/appliance/:id_
+
+receberá um status 200 caso tenha corrido tudo bem ou 404 caso não exista o id no banco de dados.
+
+## 🧪 Execução de Testes
+
+### Teste de unidade:
+
+```
+php artisan test --parallel
+```
+
+### Teste de análise estática
+
+```
+vendor/bin/phpstan analyse
+```
+
+### Teste de estilo de código
+
+```
+vendor/bin/pint --test
+```

@@ -24,7 +24,8 @@ class StorePostRequest extends FormRequest
         return [
             'title' => 'required',
             'slug' => 'required|unique:posts,slug',
-            'content' => 'required'
+            'content' => 'required',
+            'user_id' => 'required|exists:users,id'
         ];
     }
 
@@ -39,7 +40,9 @@ class StorePostRequest extends FormRequest
             'title.required' => 'O campo título é obrigatório.',
             'slug.required' => 'O campo slug é obrigatório.',
             'slug.unique' => 'O campo slug deve ser único.',
-            'content.required' => 'O campo conteúdo é obrigatório.'
+            'content.required' => 'O campo conteúdo é obrigatório.',
+            'user_id.required' => 'O campo id do usuário é obrigatório.',
+            'user_id.exists' => 'Não existe usuário com o user_id enviado.'
         ];
     }
 }

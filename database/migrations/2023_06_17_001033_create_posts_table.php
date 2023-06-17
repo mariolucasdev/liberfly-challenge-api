@@ -15,6 +15,8 @@ return new class () extends Migration {
             $table->string('title')->nullable(false);
             $table->string('slug')->nullable(false)->unique();
             $table->longText('content')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -24,6 +26,8 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('posts', function (Blueprint $table) {
+            $table->dropForeign('posts_user_id_foreign');
+        });
     }
 };
