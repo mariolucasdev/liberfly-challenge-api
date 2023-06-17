@@ -15,6 +15,11 @@ O projecto contém uma Api RESTFul desenvolvida em PHP com o framework Laravel,
 
 -   Swagger com a biblioteca L5 Swagger
 
+## Teste os endpoints com o Swagger
+
+Com o servidor php rodando, acesso o painel do Swagger pelo link:
+http://localhost:8000/api/doc
+
 ## 🏗️ Instalação
 
 ### Clone o repositório para o seu computador e acesse a pasta do projeto:
@@ -91,11 +96,6 @@ Seguido todo os passos agora você conseguirá acessar os recursos da api, atrav
 | `PUT`    | posts/:id | title, slug, content, user_id | Edita 1 post pelo seu id             | 200, 401, 404 ou 422 |
 | `DELETE` | posts/:id | ------                        | Deleta 1 post pelo seu id.           | 200, 401, 404        |
 
-## Tese os enpoints com o Swagger
-
-Com o servidor php rodando, acesso o painel do Swagger pelo link:
-http://localhost:8000/api/doc
-
 ## 🧪 Execução de Testes
 
 ### Teste de unidade:
@@ -107,7 +107,7 @@ php artisan test --parallel
 ## Informações Gerais:
 
 -   Inicie cadastrando um usuário; (_Depois de cadastrar seu usuário configure seu token de acesso no painel do Swagger clicando no botão Authorize._)
-![Butão authorize swagger](readme-files/image.png)
+    ![Butão authorize swagger](readme-files/image.png)
 
 -   Depois teste fazer o login do seu usuário com suas credenciais;
 -   Cadastre um post;
