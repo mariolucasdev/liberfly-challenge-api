@@ -19,30 +19,30 @@ O projecto contém uma Api RESTFul desenvolvida em PHP com o framework Laravel,
 
 ### Clone o repositório para o seu computador e acesse a pasta do projeto:
 
-```
+```sh
 //clone
-git clone https://github.com/mariolucasdev/gpm-challenge-backend.git
+git clone https://github.com/mariolucasdev/liberfly-challenge-api.git
 
 //acesso a pasta
-cd gpm-challenge-backend
+cd liberfly-challenge-api
 ```
 
 ### Renomeie o arquivo .env.example para .env na raiz do projeto e configure seu banco de dados:
 
-Crie um bando de dados, para menos configurações nomeie seu banco de dados como _gpm_challenge_backend_ e conclua as configurações do seu .env.
+Crie um bando de dados, para menos configurações nomeie seu banco de dados como _liberfly_challenge_api_ e conclua as configurações do seu .env.
 
-```php
+```sh
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=gpm_challenge_backend //nome do seu banco de dados
+DB_DATABASE=liberfly_challenge_api //nome do seu banco de dados
 DB_USERNAME=root
 DB_PASSWORD=
 ```
 
 ### Instale as dependências do composer:
 
-```
+```sh
 composer install
 ou
 composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
@@ -50,25 +50,19 @@ composer install -q --no-ansi --no-interaction --no-scripts --no-progress --pref
 
 ### Gere sua chave da aplicação:
 
-```php
+```sh
 php artisan key:generate
 ```
 
-### Instale as dependências package.json
+### Execute as migrações do banco de dados:
 
-```
-npm install
-```
-
-### Execute as migrações do banco de dados e os seeders:
-
-```
-php artisan migrate --seed
+```sh
+php artisan migrate
 ```
 
 ### Execute o servidor:
 
-```
+```sh
 php artisan serve
 ```
 
@@ -76,160 +70,48 @@ Seguido todo os passos agora você conseguirá acessar os recursos da api, atrav
 
 ## Api Endoints
 
-## **Marcas**
+## **Autenticação**
 
-| Método | Endpoint   | Parâmetros | Descrição              | Retorno |
-| ------ | ---------- | ---------- | ---------------------- | ------- |
-| `GET`  | api/brands | ---        | Busca lista de marcas. | 200     |
+![Swagger Auth Endpoints](readme-files/swagger-auth-endpoints.png)
 
-## _GET - api/brands_
+| Método | Endpoint      | Parâmetros            | Descrição                   | Status     |
+| ------ | ------------- | --------------------- | --------------------------- | ---------- |
+| `POST` | auth/register | name, email, password | Cadastra um novo usuário.   | 201 ou 422 |
+| `POST` | auth/login    | email, password       | Realiza o login do usuário. | 200 ou 401 |
 
-```javascript
-// Headers
-// Content-Type: application/json
-// Accept: application/json
+## **Posts**
 
-// Retorno
-{
-    "data": [
-        {
-            "id": 1,
-            "name": "Electrolux"
-        },
-        {...},
-        {...}
-    ]
-}
-```
+![Swagger Posts Endpoints](readme-files/swagger-posts-endpoints.png)
 
-## **Eletrodomésticos**
+| Método   | Endpoint  | Parâmetros                    | Descrição                            | Status               |
+| -------- | --------- | ----------------------------- | ------------------------------------ | -------------------- |
+| `POST`   | posts     | title, slug, content, user_id | Cadastra um novo post                | 201, 401 ou 422      |
+| `GET`    | posts     | ------                        | Listagem de posts do usuário logado. | 200 ou 401           |
+| `GET`    | posts/:id | ------                        | Exibe 1 post pelo seu id.            | 200, 401 ou 404      |
+| `PUT`    | posts/:id | title, slug, content, user_id | Edita 1 post pelo seu id             | 200, 401, 404 ou 422 |
+| `DELETE` | posts/:id | ------                        | Deleta 1 post pelo seu id.           | 200, 401, 404        |
 
-| Método   | Endpoint          | Parâmetros                                   | Descrição                         | Status          |
-| -------- | ----------------- | -------------------------------------------- | --------------------------------- | --------------- |
-| `POST`   | api/appliance     | name, description, eletric_tension, brand_id | Busca lista de marcas.            | 201 or 422      |
-| `GET`    | api/appliance     | ------                                       | Listagem de Eletrodomésticos.     | 200             |
-| `GET`    | api/appliance/:id | ------                                       | Exibir 1 eletrodoméstico pelo id. | 200 ou 404      |
-| `PUT`    | api/appliance/:id | name, description, eletric_tension, brand_id | Editar eletrodoméstico.           | 200, 404 or 422 |
-| `DELETE` | api/appliance/:id | ------                                       | Excluir um Eletrodomésticos.      | 200 ou 404      |
+## Tese os enpoints com o Swagger
 
-## _POST - api/appliance_
-
-```javascript
-// Headers
-// Content-Type: application/json
-// Accept: application/json
-
-// Envio
-{
-	"name" : "Geladeira Frost Free",
-	"description": "Produto versátil.",
-	"eletric_tension" : "220v",
-	"brand_id" : 2
-}
-
-// Retorno
-{
-	"id": 72,
-	"name": "Geladeira Frost Free",
-	"description": "Produto versátil.",
-	"eletric_tension": "220v",
-	"brand_id": 2,
-	"created_at": "2023-06-14 17:33:11",
-	"updated_at": "2023-06-14 17:33:11",
-	"brand": "Brastemp"
-}
-```
-
-## _GET - api/appliance_
-
-```javascript
-// Headers
-// Accept: application/json
-
-// Retorno
-[
-    {
-		"id": 42,
-		"name": "Geladeira Frost Free",
-		"description": "Produto versátil.",
-		"eletric_tension": "220v",
-		"brand_id": 1,
-		"created_at": "2023-06-14 10:43:50",
-		"updated_at": "2023-06-14 10:43:50",
-		"brand": "Electrolux"
-	},
-    {...},
-    {...}
-]
-```
-
-## _GET - api/appliance/:id_
-
-```javascript
-// Headers
-// Accept: application/json
-
-// Retorno
-{
-	"id": 68,
-	"name": "Geladeira Frost Free",
-	"description": "Produto versátil.",
-	"eletric_tension": "220v",
-	"brand_id": 2,
-	"created_at": "2023-06-14 14:15:44",
-	"updated_at": "2023-06-14 14:15:44",
-	"brand": "Brastemp"
-}
-```
-
-## _PUT - api/appliance/:id_
-
-```javascript
-// Headers
-// Content-Type: application/json
-// Accept: application/json
-
-// Envio
-{
-	"name" : "Cooktop",
-	"description": "05 bocas.",
-	"eletric_tension" : "110v",
-	"brand_id" : 5
-}
-
-// Retorno
-{
-	"id": 67,
-	"name": "Cooktop",
-	"description": "05 bocas.",
-	"eletric_tension": "110v",
-	"brand_id": 5,
-	"created_at": "2023-06-14 14:14:32",
-	"updated_at": "2023-06-14 14:14:50",
-	"brand": "LG"
-}
-```
-
-## _DELETE - api/appliance/:id_
-
-receberá um status 200 caso tenha corrido tudo bem ou 404 caso não exista o id no banco de dados.
+Com o servidor php rodando, acesso o painel do Swagger pelo link:
+http://localhost:8000/api/doc
 
 ## 🧪 Execução de Testes
 
 ### Teste de unidade:
 
-```
+```sh
 php artisan test --parallel
 ```
 
-### Teste de análise estática
+## Informações Gerais:
 
-```
-vendor/bin/phpstan analyse
-```
+-   Inicie cadastrando um usuário; (_Depois de cadastrar seu usuário configure seu token de acesso no painel do Swagger._)
+    ![Butão authorize swagger](readme-files/image.png)
 
-### Teste de estilo de código
-
-```
-vendor/bin/pint --test
-```
+-   Depois teste fazer o login do seu usuário com suas credenciais;
+-   Cadastre um post;
+-   Liste seu posts;
+-   Exiba seu post pelo id;
+-   Edite Seu Post;
+-   Exclua o post;
