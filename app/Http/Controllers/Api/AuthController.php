@@ -9,13 +9,41 @@ use App\Models\User;
 use Illuminate\Http\{JsonResponse, Request};
 use Illuminate\Support\Facades\{Auth, Hash, Validator};
 
+/**
+ * @OA\Tags(
+ *      name="Registro e Autenticação"
+ * )
+ */
 class AuthController extends Controller
 {
     /**
      * create user
      *
      * @param CreateUserRequest $request
-     * @return void
+     *
+     * @OA\Post(
+     *      path="/auth/register",
+     *      summary="Registrar um Novo Usuário",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="name", type="string"),
+     *              @OA\Property(property="email", type="email"),
+     *              @OA\Property(property="password", type="password"),
+     *          )
+     *      ),
+     *      @OA\Response(
+     *              response="201",
+     *              description="Responde com um objeto json contendo: stauts, message e token em caso de sucesso; Em caso de erro, retorno um objecto json contendo: status e message. ",
+     *              @OA\JsonContent(
+     *                  type="object",
+     *                  @OA\Property(property="status", type="bool"),
+     *                  @OA\Property(property="message", type="string"),
+     *                  @OA\Property(property="token", type="string"),
+     *              )
+     *      )
+     * )
      */
     public function createUser(CreateUserRequest $request): JsonResponse
     {
@@ -38,6 +66,30 @@ class AuthController extends Controller
      * login user
      *
      * @param Request $request
+     *
+     * * @OA\Post(
+     *      path="/auth/login",
+     *      summary="Realiza o Login do Usuário",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="email", type="email"),
+     *              @OA\Property(property="password", type="password"),
+     *          )
+     *      ),
+     *      @OA\Response(
+     *              response="201",
+     *              description="Responde com um objeto json contendo: stauts, message e token em caso de sucesso; Em caso de erro, retorno um objecto json contendo: status e message. ",
+     *              @OA\JsonContent(
+     *                  type="object",
+     *                  @OA\Property(property="status", type="bool"),
+     *                  @OA\Property(property="message", type="string"),
+     *                  @OA\Property(property="token", type="string"),
+     *              )
+     *      )
+     * )
+     *
      * @return JsonResponse
      */
     public function loginUser(LoginUserRequest $request): JsonResponse
